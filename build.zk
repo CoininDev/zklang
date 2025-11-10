@@ -1,0 +1,44 @@
+void build +FS +Proc {
+  build_objs();
+}
+
+void build_simple +FS +Proc {
+  let name = "MyZKApp";
+  let build_path = "build/";
+  let zrc_path = "zrc/";
+  let zrc: FSPath[] = [
+    "main.zk",
+    "math.zk"
+  ]: map(\(string f) zrc_path+f);
+
+
+  let compiler = "/usr/bin/zkc";
+  let libs = [];
+
+  ProcCall([compiler, "-f="+files:join(","), "-o="+build_path+name, "-l="+libs:join(",")]);
+}
+
+void build_objs +FS +Proc {
+  let name = "MyZKApp";
+  let compiler = "/usr/bin/zkc";
+  let zrc_path = "zrc/";
+  let zrc: FSPath[] = [
+    "main.zk",
+    "math.zk"
+  ]: map(\(string f) zrc_path+f);
+
+  let libs = [];
+
+  let obj: FSPath[] = zrc:map(\(FSPath p) p:mv("../"+build_path):extension(".o") );
+  // objs = ["build/main.o", "build/math.o"];
+  
+
+  ProcCall(["mkdir", "-p", build_path]);
+  obj:enumerate:each(\(int idx,FSPath path) {
+    if(!FSCompareBinary(path, zrc[idx])) {
+      ProcCall([compiler, "-f="+zrc[idx], "-o="+path]);
+    }
+  });
+  
+  ProcCall([compiler, "--link", "-f="+obj:join(","), "-o="+name]);
+}

@@ -1,0 +1,36 @@
+/*
+
+WHAT IS ZK?
+ZK is a programming language made for learning purposes.
+It has the intent to be a C with modern features and *functional paradigm*
+
+We have ZTD which is the ztandard ZK library.
+
+We have modules, and those are imported in function level with "+" keyword.
+The modules are used as a container of impure functions, 
+and they just will be accessible by explicitly importing them in the function signature.
+
+pure functions don't need to be inside a module
+
+We have also the ":" operator from ZTD (called as "chain") that puts the left expression as the first argument of the right function.
+This improves a lot the readability, for example, instead of this:
+IOputs(join(reverse_arr(split_lines(unwrap(FSread("file.txt")))), "\n"));
+We could have this:
+FSread("file.txt") : unwrap : split_lines : reverse_arr : join("\n") : IOputs;
+
+We also have interfaces, which *modules* can implement.
+
+We have struct just as C;
+
+We have string as a native type;
+
+I think thats all;
+*/
+
+void main +IO +Conf {
+  IOputs("Olá Mundo!");
+
+  let c = Conf {"example", "just an example", "my/path.txt"};
+  change_conf(&c);
+  &c:conf_to_string:IOputs;
+}
