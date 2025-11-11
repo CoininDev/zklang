@@ -1,0 +1,7 @@
+// Write custom operators! Since, operators are nothing but functions.
+
+int operator`UwU`(int a, int b) { (a + b) * 2 }
+
+void using {
+  let myvar = 2 UwU 4;
+}

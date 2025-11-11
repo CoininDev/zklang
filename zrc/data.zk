@@ -1,0 +1,54 @@
+// these are the data types in ZK:
+
+
+struct Struct {
+  string name;
+}
+
+// generics
+struct Struct<T> {
+  T variable;
+}
+
+enum Maybe<T> {
+  Just{T t};
+  Nothing;
+}
+
+// pattern matching
+void pattern_match() {
+  let maybe = Maybe.Just{string "val"};
+  match(maybe) {
+    Just{string s} => {
+      // do something
+    }
+    Nothing => {
+      // do another thing
+    }
+  }
+  // Yes, I just copied Rust, enums and matches are some of the things Rust does well.
+  // I am not ashamed of copying good implementation if needed.
+}
+
+// type matching
+void type_match() +IO {
+  let maybe_s = Maybe.Just{string "mal"};
+  let maybe_i = Maybe.Just{int 4};
+  match(maybe_s) {
+    Just{string s} => s: IOputs,
+    Just{int i} => i + i == 8: IOputs,
+    Just{T v} => v: typeof: IOputs,
+    Nothing => {}
+  }
+
+  let struct_b = Struct{bool false};
+  let struct_f = Struct{float 3.14};
+  let struct_m = Struct{Maybe.Just{string "Just"}};
+
+  match(struct_f) {
+    <bool> => {
+      if (variable) IOputs("Hello :3");
+    },
+    <string> => variable: IOputs,
+  }
+}
