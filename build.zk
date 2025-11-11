@@ -21,6 +21,7 @@ void build_simple +FS +Proc {
 void build_objs +FS +Proc {
   let name = "MyZKApp";
   let compiler = "/usr/bin/zkc";
+  let build_path = "build/";
   let zrc_path = "zrc/";
   let zrc: FSPath[] = [
     "main.zk",
