@@ -1,0 +1,28 @@
+// If you want to use external functions you can doing just like this
+zewage Raylib;
+
+// extern functions must be impure
+@impure
+extern "InitWindow@raylib.h" init_window(int x, int y, char* name);
+
+// you can use namespaces and namerules to get things easier to write.
+// this defines a standard source for external function inside this zewage.
+extern namespace "raylib.h";
+
+// this loads a rule for changing names.
+// my_external_function -> MyExternalFunction
+extern namerule snake_to_pascal; 
+// some namerules
+extern namerule prefix("PREFIX_");
+extern namerule suffix("_fn");
+
+//defined that you can use:
+@impure extern begin_drawing();
+@impure extern end_drawing();
+
+@impure 
+extern "@someother.h" my_func(); //this replaces the standard source, but not the namerules
+@impure 
+extern "some_other_name" some_other_name(int x); // this replaces the namerules, but not standard source
+@impure 
+extern "foo@bar.h" foo(); // this replaces everything;
