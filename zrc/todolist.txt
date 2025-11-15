@@ -1,4 +1,4 @@
-[ ] zkc (ZK Compiler) in rust;
+[ ] zkc (ZK Compiler);
 [ ] supporting build.zk;
+[ ] ztdbasic;
 [ ] supporting FFI;
-[ ] supporting BEAM-like processing;

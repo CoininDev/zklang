@@ -28,6 +28,6 @@ zewage Conf {
   fn demo +IO {
     let c = Conf {"example", "just an example", "my/path.txt"};
     change_conf(&c);
-    &c:conf_to_string|>IO.println;
+    &c|>conf_to_string|>IO.println;
   }
 }
