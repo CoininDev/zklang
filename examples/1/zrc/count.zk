@@ -1,0 +1,7 @@
+export count;
+
+fn count_words(s: string) -> int {
+  s |> split(" ")
+    |> filter(\x x != "")
+    |> length
+}

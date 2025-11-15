@@ -11,12 +11,16 @@ struct Struct<T> {
 }
 
 enum Maybe<T> {
-  Just{T t};
+  Just(T t);
   Nothing;
 }
 
+// those 2 examples are litteraly the same thing;
+let num = 4;
+fn num() {4}
+
 // pattern matching
-void pattern_match() {
+fn pattern_match() {
   let maybe = Maybe.Just{string "val"};
   match(maybe) {
     Just{string s} => {
@@ -31,19 +35,19 @@ void pattern_match() {
 }
 
 // type matching
-void type_match() +IO {
+fn type_match() +IO {
   let maybe_s = Maybe.Just{string "mal"};
   let maybe_i = Maybe.Just{int 4};
   match(maybe_s) {
-    Just{string s} => s: IOputs,
-    Just{int i} => i + i == 8: IOputs,
-    Just{T v} => v: typeof: IOputs,
+    Just(string s) => s: IOputs,
+    Just(int i) => i + i == 8: IOputs,
+    Just(T v) => v: typeof: IOputs,
     Nothing => {}
   }
 
   let struct_b = Struct{bool false};
   let struct_f = Struct{float 3.14};
-  let struct_m = Struct{Maybe.Just{string "Just"}};
+  let struct_m = Struct{Maybe.Just(string "Just")};
 
   match(struct_f) {
     <bool> => {

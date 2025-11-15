@@ -1,0 +1,18 @@
+import ztdzews (IO, FS);
+
+import count;
+
+fn main +IO +FS -> int {
+  let filename = get_args() |> first;
+  if (!filename) {
+    IO::println("Por favor, digite o nome de um arquivo.");
+    return 1;
+  }
+
+  let s = match(filename |> FS::read) {
+    Just(s): s,
+    Nothing: {IO::println("Erro ao ler arquivo"); return 1;}
+  }
+  
+  count_words(s) |> IO::println("%d");
+}

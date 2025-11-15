@@ -1,0 +1,28 @@
+import ztdzews (IO, Proc);
+import ztd (Strings);
+
+let appname = "MyExampleApp";
+
+let zrcpath = "zrc/";
+let buildpath = "build/";
+let flags = ["-O3", "-Wall"];
+let compiler = "zkc";
+let includefile = "include/";
+
+fn build +IO +Proc {
+  IO::println("Iniciando compilação...");
+  let files = [
+    "main.zk",
+    "pattern.zk",
+    "count.zk"
+  ] |> map(\x zrcpath + x);
+
+  let output = files 
+  |> zip(\s buildpath + basename(s) + ".o") 
+  |> map(\c {
+        Proc::run([compiler, " ", flags|>join(" "), " -f ", c[0], " -o ", c[1], " -i ", includefile]);
+        c[1]
+     });
+
+  Proc::run([compiler, " -ld ", output|>join(" "), "-lztdbasic" , " -o ", app_name]);
+}

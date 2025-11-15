@@ -1,8 +1,10 @@
-void build +FS +Proc {
+import ztd;
+
+fn build +FS +Proc {
   build_objs();
 }
 
-void build_simple +FS +Proc {
+fn build_simple +FS +Proc {
   let name = "MyZKApp";
   let build_path = "build/";
   let zrc_path = "zrc/";
@@ -18,7 +20,7 @@ void build_simple +FS +Proc {
   ProcCall([compiler, "-f="+files:join(","), "-o="+build_path+name, "-l="+libs:join(",")]);
 }
 
-void build_objs +FS +Proc {
+fn build_objs +FS +Proc {
   let name = "MyZKApp";
   let compiler = "/usr/bin/zkc";
   let build_path = "build/";

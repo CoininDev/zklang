@@ -18,19 +18,21 @@ IOputs(join(reverse_arr(split_lines(unwrap(FSread("file.txt")))), "\n"));
 We could have this:
 FSread("file.txt") : unwrap : split_lines : reverse_arr : join("\n") : IOputs;
 
-We also have interfaces, which *modules* can implement.
-
 We have struct just as C;
+
+// those 2 examples are litteraly the same thing, because variables are actually functions with contant return value;
+let num = 4;
+fn num() {4}
 
 We have string as a native type;
 
 I think thats all;
 */
 
-void main +IO +Conf {
-  IOputs("Olá Mundo!");
+fn main +IO +Conf {
+  IO.println("Olá Mundo!");
 
   let c = Conf {"example", "just an example", "my/path.txt"};
-  change_conf(&c);
-  &c:conf_to_string:IOputs;
+  Conf.change_conf(&c);
+  &c : conf_to_string : IO.println;
 }

@@ -1,0 +1,19 @@
+import pattern;
+import ztd.Arr;
+
+fn infer_linear_pattern(xs) {
+  let diffs = xs |> window(2) |> map(\a\b b - a);
+  let ratios = xs |> window(2) |> map(\a\b b / a);
+
+  if(diffs |> all(\d d == diffs[0])) {
+    let d = diffs[0];
+    return \x x + d;
+  }
+
+  if(ratios |> all(\r r == ratios[0])) {
+    let r = ratios[0];
+    return \x x * r;
+  }
+
+  return \x x;
+}

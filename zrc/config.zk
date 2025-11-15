@@ -1,31 +1,35 @@
-zewage Conf;
+export c;
 
 struct Conf {
-  string name;
-  string description;
-  string path;
+    string name;
+    string description;
+    string path;
 }
 
-// function that mutates a pointers needs to be impure
-// impure defines any impure functions that doesn't import any zewage;
-// it is needed to allow: mutable pointers, mutable local variables, or any side effect.
-// impure functions needs to be inside a zewage.
-@impure
-void change_conf(Conf* conf) {
-  conf->name = conf->name + "_modified";
-  // without @impure, compiler will show the error:
-  // Error: to change a pointer, a function needs to be impure. Consider adding @impure label at the top.
-}
+zewage Conf {
 
-//pure way to receive immutable pointer
-string conf_to_string(Conf* conf) {
-  "name:"+conf.name+"\ndescription:"+conf.description+"\npath"+conf.path
-}
+  // function that mutates a pointers needs to be impure
+  // impure defines any impure functions that doesn't import any zewage;
+  // it is needed to allow: mutable pointers, mutable local variables, or any side effect.
+  // impure functions needs to be inside a zewage.
+  @impure
+  fn change_conf(conf: Conf*) {
+    conf->name = conf->name + "_modified";
+    // without @impure, compiler will show the error:
+    // Error: to change a pointer, a function needs to be impure. Consider adding @impure label at the top.
+  }
+
+  //pure way to receive immutable pointer
+  string conf_to_string(conf: Conf*) {
+    "name:"+conf.name+"\ndescription:"+conf.description+"\npath"+conf.path
+  }
 
 
-// importing a module already makes a function impure, so the label is no more needed
-void demo +IO {
-  let c = Conf {"example", "just an example", "my/path.txt"};
-  change_conf(&c);
-  &c:conf_to_string:IOputs;
+  // importing a module already makes a function impure, so the label is no more needed
+  fn demo +IO {
+    let c = Conf {"example", "just an example", "my/path.txt"};
+    change_conf(&c);
+    &c:conf_to_string:IOputs;
+  }
+
 }
