@@ -1,47 +1,42 @@
-import ztd;
+import ztdzews.{FS, Proc};
+
+
+let name = "MyZKApp";
+let build_path = "build/";
+let zrc_path = "zrc/";
+let zrc: FSPath[] = [
+  "main.zk",
+  "ffi.zk",
+  "config.zk",
+  "header_example.zk",
+  "operators.zk",
+  "types_and_headers.zk"
+]: map(\f zrc_path + f);
+let compiler = "/usr/bin/zkc";
+let libs = [
+  "ztdbasic"
+];
+
 
 fn build +FS +Proc {
   build_objs();
 }
 
 fn build_simple +FS +Proc {
-  let name = "MyZKApp";
-  let build_path = "build/";
-  let zrc_path = "zrc/";
-  let zrc: FSPath[] = [
-    "main.zk",
-    "math.zk"
-  ]: map(\(string f) zrc_path+f);
-
-
-  let compiler = "/usr/bin/zkc";
-  let libs = [];
-
-  ProcCall([compiler, "-f="+files:join(","), "-o="+build_path+name, "-l="+libs:join(",")]);
+  Proc.run(["mkdir", "-p", build_path]);
+  Proc.run([compiler, "-f="+files:join(","), "-o="+build_path+name, "-l="+libs:join(",")]);
 }
 
 fn build_objs +FS +Proc {
-  let name = "MyZKApp";
-  let compiler = "/usr/bin/zkc";
-  let build_path = "build/";
-  let zrc_path = "zrc/";
-  let zrc: FSPath[] = [
-    "main.zk",
-    "math.zk"
-  ]: map(\(string f) zrc_path+f);
-
-  let libs = [];
-
-  let obj: FSPath[] = zrc:map(\(FSPath p) p:mv("../"+build_path):extension(".o") );
-  // objs = ["build/main.o", "build/math.o"];
   
+  let obj: FSPath[] = zrc|>map(\p p:mv("../"+build_path)|>change_extension(".o") );
 
-  ProcCall(["mkdir", "-p", build_path]);
-  obj:enumerate:each(\(int idx,FSPath path) {
+  Proc.run(["mkdir", "-p", build_path]);
+  obj|>enumerate|>each(\idx \path {
     if(!FSCompareBinary(path, zrc[idx])) {
-      ProcCall([compiler, "-f="+zrc[idx], "-o="+path]);
+      Proc.run([compiler, "-f="+zrc[idx], "-o="+obj[idx]]);
     }
   });
   
-  ProcCall([compiler, "--link", "-f="+obj:join(","), "-o="+name]);
+  Proc.run([compiler, "--link", "-f="+obj:join(","), "-o="+name]);
 }

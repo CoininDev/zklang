@@ -2,8 +2,8 @@
 zewage Raylib;
 
 // extern functions must be impure
-@impure
-extern "InitWindow@raylib.h" init_window(int x, int y, char* name);
+
+extern "InitWindow@raylib.h" init_window(int x, int y, char* name) @impure;
 
 // you can use namespaces and namerules to get things easier to write.
 // this defines a standard source for external function inside this zewage.
@@ -17,12 +17,9 @@ extern namerule prefix("PREFIX_");
 extern namerule suffix("_fn");
 
 //defined that you can use:
-@impure extern begin_drawing();
-@impure extern end_drawing();
+extern begin_drawing() @impure;
+extern end_drawing() @impure;
 
-@impure 
-extern "@someother.h" my_func(); //this replaces the standard source, but not the namerules
-@impure 
-extern "some_other_name" some_other_name(int x); // this replaces the namerules, but not standard source
-@impure 
-extern "foo@bar.h" foo(); // this replaces everything;
+extern "@someother.h" my_func() @impure; //this replaces the standard source, but not the namerules
+extern "some_other_name" some_other_name(int x) @impure; // this replaces the namerules, but not standard source
+extern "foo@bar.h" foo() @impure; // this replaces everything;

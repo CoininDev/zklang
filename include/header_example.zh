@@ -1,0 +1,6 @@
+export header_example;
+
+fn sum(int[]) -> int;
+fn product(int[]) -> int;
+fn pow(int, int) -> int;
+fn my_unsafe_function +IO;

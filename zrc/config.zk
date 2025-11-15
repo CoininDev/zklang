@@ -1,4 +1,4 @@
-export c;
+export config;
 
 struct Conf {
     string name;
@@ -12,15 +12,14 @@ zewage Conf {
   // impure defines any impure functions that doesn't import any zewage;
   // it is needed to allow: mutable pointers, mutable local variables, or any side effect.
   // impure functions needs to be inside a zewage.
-  @impure
-  fn change_conf(conf: Conf*) {
+  fn change_conf(conf: Conf*) @impure {
     conf->name = conf->name + "_modified";
     // without @impure, compiler will show the error:
     // Error: to change a pointer, a function needs to be impure. Consider adding @impure label at the top.
   }
 
   //pure way to receive immutable pointer
-  string conf_to_string(conf: Conf*) {
+  fn conf_to_string(conf: Conf*) -> string {
     "name:"+conf.name+"\ndescription:"+conf.description+"\npath"+conf.path
   }
 
@@ -29,7 +28,6 @@ zewage Conf {
   fn demo +IO {
     let c = Conf {"example", "just an example", "my/path.txt"};
     change_conf(&c);
-    &c:conf_to_string:IOputs;
+    &c:conf_to_string|>IO.println;
   }
-
 }

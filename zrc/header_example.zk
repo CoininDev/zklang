@@ -1,0 +1,26 @@
+import header_example;
+import ztd.arr;
+import ztdzews.IO;
+
+// here we don't need to redefine types. unless we want a different signature (like int and float different versions of the same function);
+
+fn sum(arr) {
+  if(arr|>len == 0) 0;
+  arr|>last + sum(arr |> drop_r(1))
+}
+
+fn product(arr) {
+  if(arr|>len == 0) 1;
+  arr|>last * product(arr |> drop_r(1))
+}
+
+fn pow(a, x) {
+  if(x <= 0) 1;
+  a * pow(a, x-1);
+}
+
+
+// we need to declare zimports in both definition AND implementation.
+fn my_impure_function +IO {
+  IO.println("Aboba");
+}

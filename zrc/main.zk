@@ -12,11 +12,14 @@ and they just will be accessible by explicitly importing them in the function si
 
 pure functions don't need to be inside a zewage
 
-We have also the ":" operator from ZTD (called as "chain") that puts the left expression as the first argument of the right function.
+zewage are different than a module, we also have modules, using the export and import keywords.
+A zewage is defined inside a module, so it can isolate impure functions of the same capability.
+
+We have also the "|>" operator that puts the left expression as the argument of the right function.
 This improves a lot the readability, for example, instead of this:
-IOputs(join(reverse_arr(split_lines(unwrap(FSread("file.txt")))), "\n"));
+IO.println(join(reverse_arr(split_lines(unwrap(FS.read("file.txt")))), "\n"));
 We could have this:
-FSread("file.txt") : unwrap : split_lines : reverse_arr : join("\n") : IOputs;
+FSread("file.txt") |> unwrap |> split_lines |> reverse_arr |> join("\n") |> IO.println;
 
 We have struct just as C;
 

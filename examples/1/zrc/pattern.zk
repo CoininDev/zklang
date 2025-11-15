@@ -1,5 +1,5 @@
 import pattern;
-import ztd.Arr;
+import ztd.arr;
 
 fn infer_linear_pattern(xs) {
   let diffs = xs |> window(2) |> map(\a\b b - a);

@@ -1,0 +1,7 @@
+// You can define the types of a funcion separately from its implementation:
+fn my_func(int, int, int) -> int;
+fn my_func(a, b, c) {
+  a + b - c
+}
+// This definition can be anywhere, even in another file, such as a .zh header.
+

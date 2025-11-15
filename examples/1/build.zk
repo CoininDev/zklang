@@ -7,10 +7,10 @@ let zrcpath = "zrc/";
 let buildpath = "build/";
 let flags = ["-O3", "-Wall"];
 let compiler = "zkc";
-let includefile = "include/";
+let includepath = "include/";
 
 fn build +IO +Proc {
-  IO::println("Iniciando compilação...");
+  IO.println("Iniciando compilação...");
   let files = [
     "main.zk",
     "pattern.zk",
@@ -20,9 +20,10 @@ fn build +IO +Proc {
   let output = files 
   |> zip(\s buildpath + basename(s) + ".o") 
   |> map(\c {
-        Proc::run([compiler, " ", flags|>join(" "), " -f ", c[0], " -o ", c[1], " -i ", includefile]);
+        Proc.run([compiler, flags|>join(" "), "-f="+c[0], "-o="+c[1], "-i="+includepath]);
         c[1]
      });
 
-  Proc::run([compiler, " -ld ", output|>join(" "), "-lztdbasic" , " -o ", app_name]);
+  Proc.run([compiler, "--link",  "-f="output|>join(","), "-l=ztdbasic" , "-o="+app_name]);
+  IO.println("Compilação concluída!");
 }
